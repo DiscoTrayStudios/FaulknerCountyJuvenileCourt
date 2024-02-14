@@ -2,9 +2,9 @@
 @model ReportModel
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    
-    <div style="display: flex; flex-direction: row;">
+      <div style="display: flex; flex-direction: row;"> 
         <!-- Graph 1 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
+        <div class= "Graphs"  style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Person arrested by Race</h1>
             <canvas id="ArrestedRaceBarChart" width="400" height="400"></canvas>
         </div>
@@ -15,7 +15,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 2 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 85px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 85px;">
             <h1>Person arrested by Gender</h1>
             <canvas id="genderPieChart" width="400" height="400"></canvas>
         </div>
@@ -26,7 +26,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 3 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 60px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 60px;">
             <h1>Person Arrested by Age</h1>
             <canvas id="agePieChart" width="400" height="400"></canvas>
         </div>
@@ -43,7 +43,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 4 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Intake Decisions</h1>
             <canvas id="IntakeDecisionPieChart" width="400" height="400"></canvas>
         </div>
@@ -54,7 +54,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 5 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 130px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 130px;">
             <h1>SAVRY Levels for Detained Youth Upon Intake</h1>
             <canvas id="RiskPieChart" width="400" height="400"></canvas>
         </div>
@@ -65,7 +65,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 6 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>School Related Arrests</h1>
             <canvas id="SchoolPieChart" width="400" height="400"></canvas>
         </div>
@@ -76,7 +76,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 7 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Prosecutor Filing Decisions</h1>
             <canvas id="FilingDecisionPieChart" width="400" height="400"></canvas>
         </div>
@@ -87,7 +87,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 8 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 140px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 140px;">
             <h1>School and Non-School Related Delinquency Petitions</h1>
             <canvas id="DelinquencySchoolPieChart" width="400" height="400"></canvas>
         </div>
@@ -98,7 +98,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 9 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Race</h1>
             <canvas id="DelinquencyRaceBarChart" width="400" height="400"></canvas>
         </div>
@@ -109,7 +109,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 10 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Gender</h1>
             <canvas id="DelinquencyGenderBarChart" width="400" height="400"></canvas>
         </div>
@@ -120,7 +120,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 11 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Age</h1>
             <canvas id="DelinquencyAgeBarChart" width="400" height="400"></canvas>
         </div>
@@ -131,7 +131,7 @@
     <br>
         <div style="display: flex; flex-direction: row;">
         <!-- Graph 12 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 150px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 150px;">
             <h1>SAVRY Ratings of Delinquent Youth Petitions</h1>
             <canvas id="AdRiskPieChart" width="400" height="400"></canvas>
         </div>
@@ -141,7 +141,7 @@
     </div>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 13 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 35px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 35px;">
             <h1>Admissions by Race</h1>
             <canvas id="adracePieChart" width="400" height="400"></canvas>
         </div>
@@ -152,7 +152,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 14 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Admission by Gender</h1>
             <canvas id="adgenderPieChart" width="400" height="400"></canvas>
         </div>
@@ -163,7 +163,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 15 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Admissions by Age</h1>
             <canvas id="adagebarChart" width="400" height="400"></canvas>
         </div>
@@ -174,7 +174,7 @@
     <br>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 16 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
             <h1>Participants by Gender</h1>
             <canvas id="DrugGenderPieChart" width="400" height="400"></canvas>
         </div>
@@ -184,7 +184,7 @@
     </div>
     <div style="display: flex; flex-direction: row;">
         <!-- Graph 17 -->
-        <div style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
+        <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
             <h1>Participants by Race</h1>
             <canvas id="DrugRacePieChart" width="400" height="400"></canvas>
         </div>
