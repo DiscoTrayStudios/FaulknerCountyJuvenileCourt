@@ -202,3 +202,9 @@ input[type=checkbox] {
   float: left; /* Float the image to the left */
   margin-right: 10px;
 }
+h1 {
+  text-align: center;
+}
+.Graphs{
+  align-items: center;
+}
