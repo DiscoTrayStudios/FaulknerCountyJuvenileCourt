@@ -1,8 +1,14 @@
 @page
 @model ReportModel
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container{
+            margin-top: 100px;
+            margin-bottom: 100px;
+        }
+    </style>
    
-      <div style="display: flex; flex-direction: row;"> 
+    <div class="chart-container" style="display: flex; flex-direction: row;"> 
         <!-- Graph 1 -->
         <div class= "Graphs"  style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Person arrested by Race</h1>
@@ -13,7 +19,7 @@
     </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 2 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 85px;">
             <h1>Person arrested by Gender</h1>
@@ -24,7 +30,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 3 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 60px;">
             <h1>Person Arrested by Age</h1>
@@ -41,7 +47,7 @@
         An objective 20th Judicial District Juvenile Court Detention Risk Assessment is used in this process with a release override if needed.
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 4 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Intake Decisions</h1>
@@ -52,7 +58,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 5 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 130px;">
             <h1>SAVRY Levels for Detained Youth Upon Intake</h1>
@@ -63,7 +69,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 6 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>School Related Arrests</h1>
@@ -74,7 +80,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 7 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Prosecutor Filing Decisions</h1>
@@ -85,7 +91,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 8 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 140px;">
             <h1>School and Non-School Related Delinquency Petitions</h1>
@@ -96,7 +102,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 9 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Race</h1>
@@ -107,7 +113,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 10 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Gender</h1>
@@ -118,7 +124,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 11 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 75px;">
             <h1>Deliquency Petitions Filed by Age</h1>
@@ -129,7 +135,7 @@
         </div>
     </div>
     <br>
-        <div style="display: flex; flex-direction: row;">
+        <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 12 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 150px;">
             <h1>SAVRY Ratings of Delinquent Youth Petitions</h1>
@@ -139,7 +145,7 @@
          <div id="adsavryText" style="flex: 1; font-size: 24px; margin-top: 150px;">
         </div>
     </div>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 13 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 35px;">
             <h1>Admissions by Race</h1>
@@ -150,7 +156,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 14 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Admission by Gender</h1>
@@ -161,7 +167,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 15 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
             <h1>Admissions by Age</h1>
@@ -172,7 +178,7 @@
         </div>
     </div>
     <br>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 16 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
             <h1>Participants by Gender</h1>
@@ -182,7 +188,7 @@
          <div id="DrugGenderText" style="flex: 1; font-size: 24px; margin-top: 120px;">
         </div>
     </div>
-    <div style="display: flex; flex-direction: row;">
+    <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 17 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
             <h1>Participants by Race</h1>
