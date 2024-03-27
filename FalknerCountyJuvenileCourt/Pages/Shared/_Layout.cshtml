@@ -34,10 +34,10 @@
                             <a id="nav-link" class="nav-link" asp-area="" asp-page="/ExcelDownload">Download Report</a>
                         </li>
                         }
-                        <li class="nav-item">
+                        @* <li class="nav-item"> 
                             <a id="nav-link" class="nav-link" asp-area="" asp-page="/Report">Report</a>
 
-                        </li>
+                        </li> *@
 
                     </ul>
                     <partial id="nav-link" name="_LoginPartial"/>
@@ -46,14 +46,16 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="wholeBody">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer id="here" class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - Faulkner County Juvenile Court - <a id="Priv" asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2024 Disco Tray Studios | Blue Cross Blue Shield - <a id="Priv" asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
