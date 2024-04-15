@@ -16,9 +16,17 @@
         <p>
             Find by Juvenile ID:
             <input type="text" name="SearchID" value="@Model.CurrentFilter" />
+            <select asp-for="@Model.DateFilter" class="form-control"
+            asp-items="@Model.DateNameSL"> 
+            <option value="">
+               -- All years --
+            </option> 
+         </select>
             <input type="submit" value="Search" class="btn btn-primary" /> |
             <a id="Back_To_List" asp-page="./Index">Back to full List</a>
         </p>
+
+        @*
         <p>
          <select asp-for="@Model.DateFilter" class="form-control"
             asp-items="@Model.DateNameSL"> 
@@ -27,6 +35,8 @@
             </option> 
          </select>
         </p>
+        *@
+        
 </form>
 
 <table class="table">

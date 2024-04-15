@@ -4,6 +4,7 @@ using FalknerCountyJuvenileCourt.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using FalknerCountyJuvenileCourt.Models;
 
 namespace FalknerCountyJuvenileCourt.Pages;
 
@@ -18,16 +19,43 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public async Task<IActionResult> OnGetArrestedRaceDistributionDataAsync()
+    public List<int> Years { get; set; }
+
+    public void OnGetAsync(int? selectedYear)
+    {
+        
+        Years = _context.Crimes.Select(j => j.Date.Value.Year).Distinct().OrderByDescending(y => y).ToList();
+
+
+        
+
+        
+    }
+
+    public async Task<IActionResult> OnGetArrestedRaceDistributionDataAsync(int? selectedYear)
     {
         try
         {
-            var raceCounts = _context.Juveniles
-                .GroupBy(c => c.Race.Name)
+            
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+            Console.WriteLine("selectedYear " + selectedYear);
+            
+
+
+        if (selectedYear.HasValue)
+            {
+
+            crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+            }
+
+            var raceCounts = crimesIQ
+                .GroupBy(c => c.Juvenile.Race.Name)
                 .Select(group => new { Race = group.Key, Count = group.Count() })
                 .ToList();
 
             return new JsonResult(raceCounts);
+            
         }
         catch (Exception ex)
         {
@@ -38,11 +66,15 @@ public class IndexModel : PageModel
             };
         }
     }
+    
+
+
     public async Task<IActionResult> OnGetGenderDistributionDataAsync()
     {
 
         try
         {
+            
             var genderCounts = _context.Juveniles
                 .GroupBy(j => j.Gender.Name)
                 .Select(group => new { Gender = group.Key, Count = group.Count() })

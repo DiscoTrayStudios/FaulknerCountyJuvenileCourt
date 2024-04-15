@@ -26,6 +26,18 @@
      “To provide intervention to court-involved youth to prevent future delinquency, rehabilitate the juvenile, and empower the family to 
      encourage positive, appropriate behaviors that will help the youth of our community to contribute to society on into adulthood.”​</p>
 </div>
+
+<div>
+    <select id="yearDropdown">
+        <option value="">Select Year</option>
+        @foreach (var year in Model.Years)
+        {
+            <option value="@year">@year</option>
+        }
+    </select>
+    <input type="submit" value="Search" class="btn btn-primary" id="searchButton" onClick="updateRaceGraph()" />
+</div>
+
    
     <div class="chart-container" style="display: flex; flex-direction: row;"> 
         <!-- Graph 1 -->
@@ -37,7 +49,9 @@
         <div id="arrestedRaceText" style="flex: 1; font-size: 24px; margin-top: 150px;">
     </div>
     </div>
+
     <br>
+
     <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 2 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 85px;">
@@ -48,7 +62,9 @@
         <div id="genderText" style="flex: 1; font-size: 24px; margin-top: 150px;">
         </div>
     </div>
+
     <br>
+
     <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 3 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 60px;">
@@ -59,13 +75,17 @@
         <div id="ageText" style="flex: 1; font-size: 24px; margin-top: 150px;">
         </div>
     </div>
+
     <br>
+
     <div style="text-align: center; font-weight:bold; margin-bottom: 40px; margin-top:40px; font-size: 24px;">
         Juvenile Court provides on-call juvenile officers 24/7/365. 
         This officer determines the youth's placement at the time of arrest given specific factors (risk to the community and mental health). 
         An objective 20th Judicial District Juvenile Court Detention Risk Assessment is used in this process with a release override if needed.
     </div>
+
     <br>
+
     <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 4 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 40px;">
@@ -230,15 +250,35 @@
         'rgba(0, 128, 0, 0.8)'      // Green
         ];
 
-    document.addEventListener('DOMContentLoaded', async function () {
+    
+    
+
+
+    document.addEventListener('DOMContentLoaded', updateRaceGraph());
+
+    async function updateRaceGraph()  {
         try {
-            var response = await fetch('/Report?handler=ArrestedRaceDistributionData', {
+
+            let chartStatus = Chart.getChart("ArrestedRaceBarChart"); // <canvas> id
+            if (chartStatus != undefined) {
+                chartStatus.destroy();
+                
+            }
+
+            var tempYear = document.getElementById('yearDropdown').value;
+            console.log('here' + tempYear)
+
+
+            var response = await fetch('/Index?handler=ArrestedRaceDistributionData&selectedYear=' + tempYear, {
                 headers: {
                     'Accept': 'application/json'
                 }
             });
-            //console.log("Raw response data:", await response.text());
+            
             if (response.ok) {
+
+                
+
                 var raceData = await response.json();
  
                 console.log('Received raceData:', raceData);
@@ -281,7 +321,16 @@
             console.error("Error fetching or parsing data:", error);
  
         }
-    });
+    };
+
+
+ 
+
+
+
+
+
+
     document.addEventListener('DOMContentLoaded', async function () {
         try {
             var response = await fetch('/Report?handler=GenderDistributionData', {
