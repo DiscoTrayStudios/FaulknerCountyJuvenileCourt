@@ -11,6 +11,16 @@
             margin-top: 100px;
             margin-bottom: 100px;
         }
+        
+    .styled {
+        text-align: center; /* Center-align the text */
+    }
+
+    .styled p {
+        font-weight: bold; /* Make the text bold */
+        text-decoration: underline; /* Underline the text */
+        font-size: 36px;
+    }
     </style>
 
    
@@ -29,13 +39,13 @@
 
 <div>
     <select id="yearDropdown">
-        <option value="">Select Year</option>
+        <option value="">All Years</option>
         @foreach (var year in Model.Years)
         {
             <option value="@year">@year</option>
         }
     </select>
-    <input type="submit" value="Search" class="btn btn-primary" id="searchButton" onClick="updateRaceGraph()" />
+    <input type="submit" value="Search" class="btn btn-primary" id="searchButton" onClick="updateGraphs()" />
 </div>
 
    
@@ -184,6 +194,9 @@
          <div id="adsavryText" style="flex: 1; font-size: 24px; margin-top: 150px;">
         </div>
     </div>
+    <div class="styled">
+        <p>Juvenile Detention Center</p>
+    </div>
     <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 13 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 35px;">
@@ -217,6 +230,10 @@
         </div>
     </div>
     <br>
+    <div class="styled">
+    <p>Juvenile Drug Court</p>
+    </div>
+    <br>
     <div class="chart-container" style="display: flex; flex-direction: row;">
         <!-- Graph 16 -->
         <div class= "Graphs" style="width: 400px; height: 400px; margin-right: 70px; margin-bottom: 110px;">
@@ -239,9 +256,9 @@
     </div>
  
 <script>
-    console.log("aa");
+   
     Chart.defaults.color = "black";
-    // Predefined set of colors, use this for every piechart so that color scheme is similar
+    
     var predefinedColors = [
         'rgba(255, 165, 0, 0.8)',   // Orange
         'rgba(0, 0, 255, 0.8)',     // Blue
@@ -250,900 +267,148 @@
         'rgba(0, 128, 0, 0.8)'      // Green
         ];
 
+
+
+
+    var ChartListDict = [
+    {ChartId:"ArrestedRaceBarChart", TextId:"arrestedRaceText", FetchIndex:'/Index?handler=ArrestedRaceDistributionData&selectedYear=', Item1 : item => item.race, Item2 :'race', type : 'bar' },
+    {ChartId:"genderPieChart", TextId:"genderText", FetchIndex:'/Index?handler=GenderDistributionData&selectedYear=', Item1: item => item.gender , Item2: 'gender', type : 'pie' },
+    {ChartId:"agePieChart", TextId:"ageText", FetchIndex:'/Index?handler=AgeDistributionData&selectedYear=', Item1: item => item.ageGroups , Item2:'ageGroups', type : 'pie' },
+    {ChartId:"IntakeDecisionPieChart", TextId:"intakeText", FetchIndex:'/Index?handler=IntakeDecisionDistributionData&selectedYear=', Item1: item => item.intakeDecisionCounts , Item2:'intakeDecisionCounts', type : 'pie' },
+    {ChartId:"RiskPieChart", TextId:"savryText", FetchIndex:'/Index?handler=RiskDistributionData&selectedYear=', Item1: item => item.riskcount , Item2:'riskcount', type :'pie' },
+    {ChartId:"SchoolPieChart", TextId:"schoolText", FetchIndex:'/Index?handler=SchoolDistributionData&selectedYear=', Item1:item => item.schoolCount , Item2 : 'schoolCount', type :'pie' },
+    {ChartId:"FilingDecisionPieChart", TextId:"filingDecisionText", FetchIndex:'/Index?handler=FilingDecisionDistributionData&selectedYear=', Item1 : item => item.filingdecisioncount , Item2:'filingdecisioncount', type : 'pie' },
+    {ChartId:"DelinquencySchoolPieChart", TextId:"DelinquencySchoolText", FetchIndex:'/Index?handler=DelinquencySchoolDistributionData&selectedYear=', Item1: item => item.delinquencyschool , Item2:'delinquencyschool', type : 'pie' },
+    {ChartId:"DelinquencyRaceBarChart", TextId:"DelinquencyRaceText", FetchIndex:'/Index?handler=DelinquencyRaceDistributionData&selectedYear=', Item1: item => item.delinquencyrace , Item2:'delinquencyrace', type : 'bar' },
+    {ChartId:"DelinquencyGenderBarChart", TextId:"DelinquencyGenderText", FetchIndex:'/Index?handler=DelinquencyGenderDistributionData&selectedYear=', Item1: item => item.delinquencygender , Item2:'delinquencygender', type: 'bar' },
+    {ChartId:"DelinquencyAgeBarChart", TextId:"DelinquencyAgeText", FetchIndex:'/Index?handler=DelinquencyAgeDistributionData&selectedYear=', Item1: item => item.delinquencyage , Item2:'delinquencyage', type: 'bar' }, 
+    {ChartId:"AdRiskPieChart", TextId:"adsavryText", FetchIndex:'/Index?handler=AdRiskDistributionData&selectedYear=', Item1:item => item.adriskcount , Item2:'adriskcount', type : 'pie' },
+    {ChartId:"DrugGenderPieChart", TextId:"DrugGenderText", FetchIndex:'/Index?handler=DrugGenderDistributionData&selectedYear=', Item1:item => item.druggendercount , Item2:'druggendercount', type :'pie'},
+    {ChartId:"adracePieChart", TextId:"adraceText", FetchIndex:'/Index?handler=RaceDistributionData&selectedYear=', Item1:item => item.race , Item2:'race', type : 'pie' },
+    {ChartId:"adgenderPieChart", TextId:"adgenderText", FetchIndex:'/Index?handler=AdGenderDistributionData&selectedYear=', Item1:item => item.gender , Item2:'gender', type: 'pie' },
+    {ChartId:"adagebarChart", TextId:"adageText", FetchIndex:'/Index?handler=AdAgeDistributionData&selectedYear=', Item1:item => item.ageGroups , Item2:'ageGroups', type : 'bar' }, 
+    {ChartId:"DrugRacePieChart", TextId:"DrugRaceText", FetchIndex:'/Index?handler=DrugRaceDistributionData&selectedYear=', Item1:item => item.drugracecount , Item2:'drugracecount', type:'pie' }
+
+
+
+     ]
     
-    
 
 
-    document.addEventListener('DOMContentLoaded', updateRaceGraph());
+    document.addEventListener('DOMContentLoaded', updateGraphs());
 
-    async function updateRaceGraph()  {
-        try {
+    async function updateGraphs()  {
+        for(let i =0 ; i < ChartListDict.length; i++){
+            try {
+                var TempDict = ChartListDict[i]
 
-            let chartStatus = Chart.getChart("ArrestedRaceBarChart"); // <canvas> id
-            if (chartStatus != undefined) {
-                chartStatus.destroy();
-                
-            }
-
-            var tempYear = document.getElementById('yearDropdown').value;
-            console.log('here' + tempYear)
-
-
-            var response = await fetch('/Index?handler=ArrestedRaceDistributionData&selectedYear=' + tempYear, {
-                headers: {
-                    'Accept': 'application/json'
+                let chartStatus = Chart.getChart(TempDict.ChartId); // <canvas> id
+                if (chartStatus != undefined) {
+                    chartStatus.destroy();
                 }
-            });
-            
-            if (response.ok) {
 
+                var tempYear = document.getElementById('yearDropdown').value;
                 
 
-                var raceData = await response.json();
- 
-                console.log('Received raceData:', raceData);
- 
-                var raceLabels = raceData.map(item => item.race);
-                var raceValues = raceData.map(item => item.count);
 
-                var arrestedRaceText = document.getElementById('arrestedRaceText');
-                arrestedRaceText.innerHTML = raceData.map(item => `${item.race}: ${item.count} (${((item.count / raceData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${raceData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(raceLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, raceLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('ArrestedRaceBarChart').getContext('2d');
-                var racePieChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: raceLabels,
-                        datasets: [{
-                            label: 'Arrests by race',
-                            data: raceValues,
-                            backgroundColor: backgroundColors,
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
+                var response = await fetch(TempDict.FetchIndex + tempYear, {
+                    headers: {
+                        'Accept': 'application/json'
                     }
                 });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
+                
+                if (response.ok) {
+
+                    
+
+                    var raceData = await response.json();
+                    console.log('Received ${TempDict.FetchIndex}', raceData);
+    
+                    var label = TempDict.Item1;
+                    var label2 = TempDict.Item2;
+                    
+    
+                    var raceLabels = raceData.map(label);
+                    var raceValues = raceData.map(item => item.count);
+
+                    var arrestedRaceText = document.getElementById(TempDict.TextId);
+                    
+                    arrestedRaceText.innerHTML = raceData.map(item => `${item[label2]}: ${item.count} (${((item.count / raceData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)` ).join('<br>') +
+                    `<br>Grand Total: ${raceData.reduce((acc, curr) => acc + curr.count, 0)}`;
+    
+                    // Use predefined colors for the first 5 colors
+                    var backgroundColors = predefinedColors.slice(0, Math.min(raceLabels.length, predefinedColors.length));
+                    backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, raceLabels.length - predefinedColors.length)));
+
+
+                    if (TempDict.type == 'bar'){
+
+
+                    var ctx = document.getElementById(TempDict.ChartId).getContext('2d');
+                    var racePieChart = new Chart(ctx, {
+                        type: TempDict.type,
+                        data: {
+                            labels: raceLabels,
+                            datasets: [{
+                                data: raceValues,
+                                backgroundColor: backgroundColors,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                },
+                                }
+                        }
+                        
+
+                    });
+                    };
+
+                    if (TempDict.type == 'pie'){
+
+
+                        var ctx = document.getElementById(TempDict.ChartId).getContext('2d');
+                        var racePieChart = new Chart(ctx, {
+                            type: TempDict.type,
+                            data: {
+                                labels: raceLabels,
+                                datasets: [{
+                                    data: raceValues,
+                                    backgroundColor: backgroundColors,
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                    },
+                                    }
+                            }
+
+
+                    });
+                    
+
+                    };
+
+                } else {
+                    console.error("Error fetching data. Status:", response.status);
+                    console.log("Raw response data:", await response.text());
+                }
+            } catch (error) {
+                console.error("Error fetching or parsing data:", error);
+    
             }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
+
         }
     };
 
-
- 
-
-
-
-
-
-
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=GenderDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var genderData = await response.json();
- 
-                console.log('Received genderData:', genderData);
- 
-                var genderLabels = genderData.map(item => item.gender);
-                var genderValues = genderData.map(item => item.count);
-
-                var genderText = document.getElementById('genderText');
-                genderText.innerHTML = genderData.map(item => `${item.gender}: ${item.count} (${((item.count / genderData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${genderData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(genderLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, genderLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('genderPieChart').getContext('2d');
-                var genderPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: genderLabels,
-                        datasets: [{
-                            data: genderValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-
-   document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=AgeDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var ageData = await response.json();
-
-                console.log('Received ageData:', ageData);
-
-                var ageLabels = ageData.map(item => item.ageGroups);
-                var ageValues = ageData.map(item => item.count);
-
-                var ageText = document.getElementById('ageText');
-                ageText.innerHTML = ageData.map(item => `${item.ageGroups}: ${item.count} (${((item.count / ageData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${ageData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(ageLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, ageLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('agePieChart').getContext('2d');
-                var agePieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: ageLabels,
-                        datasets: [{
-                            data: ageValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=IntakeDecisionDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var IntakeDecisionData = await response.json();
- 
-                console.log('Received IntakeDecisionData:', IntakeDecisionData);
- 
-                var IntakeDecisionLabels = IntakeDecisionData.map(item => item.intakeDecisionCounts);
-                var IntakeDecisionValues = IntakeDecisionData.map(item => item.count);
-
-                var intakeText = document.getElementById('intakeText');
-                intakeText.innerHTML = IntakeDecisionData.map(item => `${item.intakeDecisionCounts}: ${item.count} (${((item.count / IntakeDecisionData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${IntakeDecisionData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(IntakeDecisionLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, IntakeDecisionLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('IntakeDecisionPieChart').getContext('2d');
-                var IntakeDecisionPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: IntakeDecisionLabels,
-                        datasets: [{
-                            data: IntakeDecisionValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=RiskDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var RiskData = await response.json();
- 
-                console.log('Received RiskData:', RiskData);
- 
-                var RiskLabels = RiskData.map(item => item.riskcount);
-                var RiskValues = RiskData.map(item => item.count);
-
-                var savryText = document.getElementById('savryText');
-                savryText.innerHTML = RiskData.map(item => `${item.riskcount}: ${item.count} (${((item.count / RiskData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${RiskData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(RiskLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, RiskLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('RiskPieChart').getContext('2d');
-                var RiskPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: RiskLabels,
-                        datasets: [{
-                            data: RiskValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=SchoolDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var SchoolData = await response.json();
- 
-                console.log('Received SchoolData:', SchoolData);
- 
-                var SchoolLabels = SchoolData.map(item => item.schoolCount);
-                var SchoolValues = SchoolData.map(item => item.count);
-
-                var schoolText = document.getElementById('schoolText');
-                schoolText.innerHTML = SchoolData.map(item => `${item.schoolCount}: ${item.count} (${((item.count / SchoolData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${SchoolData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(SchoolLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, SchoolLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('SchoolPieChart').getContext('2d');
-                var SchoolPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: SchoolLabels,
-                        datasets: [{
-                            data: SchoolValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=FilingDecisionDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var FilingDecisionData = await response.json();
- 
-                console.log('Received FilingDecisionData:', FilingDecisionData);
- 
-                var FilingDecisionLabels = FilingDecisionData.map(item => item.filingdecisioncount);
-                var FilingDecisionValues = FilingDecisionData.map(item => item.count);
-
-                var filingDecisionText = document.getElementById('filingDecisionText');
-                filingDecisionText.innerHTML = FilingDecisionData.map(item => `${item.filingdecisioncount}: ${item.count} (${((item.count / FilingDecisionData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${FilingDecisionData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(FilingDecisionLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, FilingDecisionLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('FilingDecisionPieChart').getContext('2d');
-                var FilingDecisionPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: FilingDecisionLabels,
-                        datasets: [{
-                            data: FilingDecisionValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DelinquencySchoolDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var DelinquencySchoolData = await response.json();
-
-                console.log('Received DelinquencySchoolData:', DelinquencySchoolData);
-
-                var DelinquencySchoolLabels = DelinquencySchoolData.map(item => item.delinquencyschool);
-                var DelinquencySchoolValues = DelinquencySchoolData.map(item => item.count);
-
-                var DelinquencySchoolText = document.getElementById('DelinquencySchoolText');
-                DelinquencySchoolText.innerHTML = DelinquencySchoolData.map(item => `${item.delinquencyschool}: ${item.count} (${((item.count / DelinquencySchoolData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DelinquencySchoolData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DelinquencySchoolLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DelinquencySchoolLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('DelinquencySchoolPieChart').getContext('2d');
-                var DelinquencySchoolPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: DelinquencySchoolLabels,
-                        datasets: [{
-                            data: DelinquencySchoolValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DelinquencyRaceDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var DelinquencyRaceData = await response.json();
-
-                console.log('Received DelinquencyRaceData:', DelinquencyRaceData);
-
-                var DelinquencyRaceLabels = DelinquencyRaceData.map(item => item.delinquencyrace);
-                var DelinquencyRaceValues = DelinquencyRaceData.map(item => item.count);
-
-                var DelinquencyRaceText = document.getElementById('DelinquencyRaceText');
-                DelinquencyRaceText.innerHTML = DelinquencyRaceData.map(item => `${item.delinquencyrace}: ${item.count} (${((item.count / DelinquencyRaceData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DelinquencyRaceData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DelinquencyRaceLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DelinquencyRaceLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('DelinquencyRaceBarChart').getContext('2d');
-                var DelinquencyRaceBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DelinquencyRaceLabels,
-                        datasets: [{
-                            label: 'Delinquency Petitions Filed',
-                            data: DelinquencyRaceValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DelinquencyGenderDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var DelinquencyGenderData = await response.json();
-
-                console.log('Received DelinquencyGenderData:', DelinquencyGenderData);
-
-                var DelinquencyGenderLabels = DelinquencyGenderData.map(item => item.delinquencygender);
-                var DelinquencyGenderValues = DelinquencyGenderData.map(item => item.count);
-
-                var DelinquencyGenderText = document.getElementById('DelinquencyGenderText');
-                DelinquencyGenderText.innerHTML = DelinquencyGenderData.map(item => `${item.delinquencygender}: ${item.count} (${((item.count / DelinquencyGenderData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DelinquencyGenderData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DelinquencyGenderLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DelinquencyGenderLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('DelinquencyGenderBarChart').getContext('2d');
-                var DelinquencyGenderBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DelinquencyGenderLabels,
-                        datasets: [{
-                            label: 'Delinquency Petitions Filed',
-                            data: DelinquencyGenderValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DelinquencyAgeDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var DelinquencyAgeData = await response.json();
-
-                console.log('Received DelinquencyAgeData:', DelinquencyAgeData);
-
-                var DelinquencyAgeLabels = DelinquencyAgeData.map(item => item.delinquencyage);
-                var DelinquencyAgeValues = DelinquencyAgeData.map(item => item.count);
-
-                var DelinquencyAgeText = document.getElementById('DelinquencyAgeText');
-                DelinquencyAgeText.innerHTML = DelinquencyAgeData.map(item => `${item.delinquencyage}: ${item.count} (${((item.count / DelinquencyAgeData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DelinquencyAgeData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DelinquencyAgeLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DelinquencyAgeLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('DelinquencyAgeBarChart').getContext('2d');
-                var DelinquencyAgeBarChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: DelinquencyAgeLabels,
-                        datasets: [{
-                            label: 'Delinquency Petitions Filed',
-                            data: DelinquencyAgeValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=RaceDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var raceData = await response.json();
- 
-                console.log('Received raceData:', raceData);
- 
-                var raceLabels = raceData.map(item => item.race);
-                var raceValues = raceData.map(item => item.count);
-
-                var adraceText = document.getElementById('adraceText');
-                adraceText.innerHTML = raceData.map(item => `${item.race}: ${item.count} (${((item.count / raceData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${raceData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(raceLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, raceLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('adracePieChart').getContext('2d');
-                var racePieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: raceLabels,
-                        datasets: [{
-                            data: raceValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=AdGenderDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var genderData = await response.json();
- 
-                console.log('Received genderData:', genderData);
- 
-                var genderLabels = genderData.map(item => item.gender);
-                var genderValues = genderData.map(item => item.count);
-
-                var adgenderText = document.getElementById('adgenderText');
-                adgenderText.innerHTML = genderData.map(item => `${item.gender}: ${item.count} (${((item.count / genderData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${genderData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(genderLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, genderLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('adgenderPieChart').getContext('2d');
-                var genderPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: genderLabels,
-                        datasets: [{
-                            data: genderValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=AdAgeDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            if (response.ok) {
-                var ageData = await response.json();
-
-                console.log('Received ageData:', ageData);
-
-                var ageLabels = ageData.map(item => item.ageGroups);
-                var ageValues = ageData.map(item => item.count);
-
-                var adageText = document.getElementById('adageText');
-                adageText.innerHTML = ageData.map(item => `${item.ageGroups}: ${item.count} (${((item.count / ageData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${ageData.reduce((acc, curr) => acc + curr.count, 0)}`;
-
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(ageLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, ageLabels.length - predefinedColors.length)));
-
-                var ctx = document.getElementById('adagebarChart').getContext('2d');
-                var agePieChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ageLabels,
-                        datasets: [{
-                            label: 'Arrests by ages',
-                            data: ageValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=AdRiskDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var AdRiskData = await response.json();
- 
-                console.log('Received AdRiskData:', AdRiskData);
- 
-                var AdRiskLabels = AdRiskData.map(item => item.adriskcount);
-                var AdRiskValues = AdRiskData.map(item => item.count);
-
-                var adsavryText = document.getElementById('adsavryText');
-                adsavryText.innerHTML = AdRiskData.map(item => `${item.adriskcount}: ${item.count} (${((item.count / AdRiskData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${AdRiskData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(AdRiskLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, AdRiskLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('AdRiskPieChart').getContext('2d');
-                var AdRiskPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: AdRiskLabels,
-                        datasets: [{
-                            data: AdRiskValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DrugGenderDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var DrugGenderData = await response.json();
- 
-                console.log('Received DrugGenderData:', DrugGenderData);
- 
-                var DrugGenderLabels = DrugGenderData.map(item => item.druggendercount);
-                var DrugGenderValues = DrugGenderData.map(item => item.count);
-
-                var DrugGenderText = document.getElementById('DrugGenderText');
-                DrugGenderText.innerHTML = DrugGenderData.map(item => `${item.druggendercount}: ${item.count} (${((item.count / DrugGenderData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DrugGenderData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DrugGenderLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DrugGenderLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('DrugGenderPieChart').getContext('2d');
-                var DrugGenderPieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: DrugGenderLabels,
-                        datasets: [{
-                            data: DrugGenderValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
-    document.addEventListener('DOMContentLoaded', async function () {
-        try {
-            var response = await fetch('/Report?handler=DrugRaceDistributionData', {
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-            //console.log("Raw response data:", await response.text());
-            if (response.ok) {
-                var DrugRaceData = await response.json();
- 
-                console.log('Received DrugRaceData:', DrugRaceData);
- 
-                var DrugRaceLabels = DrugRaceData.map(item => item.drugracecount);
-                var DrugRaceValues = DrugRaceData.map(item => item.count);
-
-                var DrugRaceText = document.getElementById('DrugRaceText');
-                DrugRaceText.innerHTML = DrugRaceData.map(item => `${item.drugracecount}: ${item.count} (${((item.count / DrugRaceData.reduce((acc, curr) => acc + curr.count, 0)) * 100).toFixed(1)}%)`).join('<br>') +
-                `<br>Grand Total: ${DrugRaceData.reduce((acc, curr) => acc + curr.count, 0)}`;
- 
-                // Use predefined colors for the first 5 colors
-                var backgroundColors = predefinedColors.slice(0, Math.min(DrugRaceLabels.length, predefinedColors.length));
-                backgroundColors = backgroundColors.concat(generateRandomColors(Math.max(0, DrugRaceLabels.length - predefinedColors.length)));
- 
-                var ctx = document.getElementById('DrugRacePieChart').getContext('2d');
-                var DrugRacePieChart = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: DrugRaceLabels,
-                        datasets: [{
-                            data: DrugRaceValues,
-                            backgroundColor: backgroundColors
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                });
-            } else {
-                console.error("Error fetching data. Status:", response.status);
-                console.log("Raw response data:", await response.text());
-            }
-        } catch (error) {
-            console.error("Error fetching or parsing data:", error);
- 
-        }
-    });
  
     //Generate random colors
     function generateRandomColors(count) {

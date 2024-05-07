@@ -177,14 +177,16 @@ input[type=checkbox] {
 #here{
   background-color: rgba(58, 58, 41, 0.9);
 }
-#nav-link, .nav-item {
+#nav-link {
   background-color: black;
   color: white;
   border-color: black;
   outline: 2px solid black;
+  margin-right: 20px;
   transition-duration: 0.2s;
+  padding: 14px 20px;
 }
-#nav-link:hover, .nav-item:hover {
+#nav-link:hover {
   background-color: darkgoldenrod; 
   border: black;
   outline: 2px solid black;
