@@ -4,6 +4,7 @@ using FalknerCountyJuvenileCourt.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using FalknerCountyJuvenileCourt.Models;
 
 namespace FalknerCountyJuvenileCourt.Pages;
 
@@ -18,16 +19,43 @@ public class IndexModel : PageModel
         _context = context;
     }
 
-    public async Task<IActionResult> OnGetArrestedRaceDistributionDataAsync()
+    public List<int> Years { get; set; }
+
+    public void OnGetAsync(int? selectedYear)
+    {
+        
+        Years = _context.Crimes.Select(j => j.Date.Value.Year).Distinct().OrderByDescending(y => y).ToList();
+
+
+        
+
+        
+    }
+
+    public async Task<IActionResult> OnGetArrestedRaceDistributionDataAsync(int? selectedYear)
     {
         try
         {
-            var raceCounts = _context.Juveniles
-                .GroupBy(c => c.Race.Name)
+            
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+            Console.WriteLine("selectedYear " + selectedYear);
+            
+
+
+        if (selectedYear.HasValue)
+            {
+
+            crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+            }
+
+            var raceCounts = crimesIQ
+                .GroupBy(c => c.Juvenile.Race.Name)
                 .Select(group => new { Race = group.Key, Count = group.Count() })
                 .ToList();
 
             return new JsonResult(raceCounts);
+            
         }
         catch (Exception ex)
         {
@@ -38,13 +66,29 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetGenderDistributionDataAsync()
+    
+
+
+    public async Task<IActionResult> OnGetGenderDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var genderCounts = _context.Juveniles
-                .GroupBy(j => j.Gender.Name)
+            
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+            Console.WriteLine("selectedYear " + selectedYear);
+            
+
+
+        if (selectedYear.HasValue)
+            {
+
+            crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+            }
+            
+            var genderCounts = crimesIQ
+                .GroupBy(j => j.Juvenile.Gender.Name)
                 .Select(group => new { Gender = group.Key, Count = group.Count() })
                 .ToList();
 
@@ -59,12 +103,22 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetAgeDistributionDataAsync()
+    public async Task<IActionResult> OnGetAgeDistributionDataAsync(int? selectedYear)
     {
         try
         {
-        var ageGroups = _context.Juveniles
-            .GroupBy(j => (j.Age - 1) / 3 * 3)
+             IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+
+        var ageGroups = crimesIQ
+            .GroupBy(j => (j.Juvenile.Age - 1) / 3 * 3)
             .Select(group => new { ageGroups = $"{group.Key + 1}-{group.Key + 3}", Count = group.Count() })
             .ToList();
 
@@ -79,12 +133,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetIntakeDecisionDistributionDataAsync()
+    public async Task<IActionResult> OnGetIntakeDecisionDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var IntakeDecisionCounts = _context.Crimes
+             IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var IntakeDecisionCounts = crimesIQ
                 .GroupBy(j => j.IntakeDecision.Name)
                 .Select(group => new { IntakeDecisionCounts = group.Key, count = group.Count() })
                 .ToList();
@@ -100,12 +163,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetRiskDistributionDataAsync()
+    public async Task<IActionResult> OnGetRiskDistributionDataAsync(int? selectedYear)
     {
 
          try
     {
-        var RiskCounts = _context.Crimes
+        IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+        var RiskCounts = crimesIQ
             .Where(j => j.IntakeDecisionID == 3)
             .GroupBy(j => j.Juvenile.Risk.Name)
             .Select(group => new { riskcount = group.Key.ToString(), count = group.Count() })
@@ -122,12 +194,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetSchoolDistributionDataAsync()
+    public async Task<IActionResult> OnGetSchoolDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var SchoolCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var SchoolCounts = crimesIQ
                 .GroupBy(j => j.School.Name)
                 .Select(group => new { schoolCount = group.Key, count = group.Count() })
                 .ToList();
@@ -143,12 +224,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetFilingDecisionDistributionDataAsync()
+    public async Task<IActionResult> OnGetFilingDecisionDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var FilingDecisionCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var FilingDecisionCounts = crimesIQ
                 .GroupBy(j => j.FilingDecision.Name)
                 .Select(group => new { filingdecisioncount = group.Key, count = group.Count() })
                 .ToList();
@@ -164,12 +254,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDelinquencySchoolDistributionDataAsync()
+    public async Task<IActionResult> OnGetDelinquencySchoolDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var delinquencyschool = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var delinquencyschool = crimesIQ
                 .Where(j => j.FilingDecisionID == 1)
                 .GroupBy(j => j.School.Name)
                 .Select(group => new { delinquencyschool = group.Key, Count = group.Count() })
@@ -188,13 +287,22 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDelinquencyRaceDistributionDataAsync()
+    public async Task<IActionResult> OnGetDelinquencyRaceDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
 
-            var delinquencyrace = _context.Crimes
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+
+            var delinquencyrace = crimesIQ
                 .Where(j => j.FilingDecisionID == 1)
                 .GroupBy(j => j.Juvenile.Race.Name)
                 .Select(group => new { delinquencyrace = group.Key, Count = group.Count() })
@@ -211,12 +319,22 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDelinquencyGenderDistributionDataAsync()
+    public async Task<IActionResult> OnGetDelinquencyGenderDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var delinquencygender = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+
+            var delinquencygender = crimesIQ
                 .Where(j => j.FilingDecisionID == 1)
                 .GroupBy(j => j.Juvenile.Gender.Name)
                 .Select(group => new { delinquencygender = group.Key, Count = group.Count() })
@@ -233,11 +351,20 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDelinquencyAgeDistributionDataAsync()
+    public async Task<IActionResult> OnGetDelinquencyAgeDistributionDataAsync(int? selectedYear)
     {
         try
         {
-        var delinquencyage = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+        var delinquencyage = crimesIQ
             .Where(j => j.FilingDecisionID == 1)
             .GroupBy(j => (j.Juvenile.Age - 1) / 3 * 3)
             .Select(group => new { delinquencyage = $"{group.Key + 1}-{group.Key + 3}", Count = group.Count() })
@@ -254,11 +381,20 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetRaceDistributionDataAsync()
+    public async Task<IActionResult> OnGetRaceDistributionDataAsync(int? selectedYear)
     {
 
         try {
-            var raceCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var raceCounts = crimesIQ
                 .Where(c => c.IntakeDecisionID == 3)
                 .GroupBy(j => j.Juvenile.Race.Name)
                 .Select(group => new { Race = group.Key, Count = group.Count() })
@@ -275,12 +411,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetAdGenderDistributionDataAsync()
+    public async Task<IActionResult> OnGetAdGenderDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var genderCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var genderCounts = crimesIQ
                 .Where(j => j.IntakeDecisionID == 3)
                 .GroupBy(j => j.Juvenile.Gender.Name)
                 .Select(group => new { Gender = group.Key, Count = group.Count() })
@@ -297,11 +442,20 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetAdAgeDistributionDataAsync()
+    public async Task<IActionResult> OnGetAdAgeDistributionDataAsync(int? selectedYear)
     {
         try
         {
-        var ageGroups = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+        var ageGroups = crimesIQ
             .Where(j => j.IntakeDecisionID == 3)
             .GroupBy(j => (j.Juvenile.Age - 1) / 3 * 3)
             .Select(group => new { ageGroups = $"{group.Key + 1}-{group.Key + 3}", Count = group.Count() })
@@ -318,12 +472,22 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetAdRiskDistributionDataAsync()
+    public async Task<IActionResult> OnGetAdRiskDistributionDataAsync(int? selectedYear)
     {
 
       try
       {
-        var AdRiskCounts = _context.Crimes
+        IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+        
+        var AdRiskCounts = crimesIQ
             .Where(j => j.FilingDecisionID == 1)
             .GroupBy(j => j.Juvenile.Risk.Name)
             .Select(group => new { adriskcount = group.Key.ToString(), count = group.Count() })
@@ -340,12 +504,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDrugGenderDistributionDataAsync()
+    public async Task<IActionResult> OnGetDrugGenderDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var druggenderCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var druggenderCounts = crimesIQ
                 .Where(j => j.DrugCourt == true)
                 .GroupBy(j => j.Juvenile.Gender.Name)
                 .Select(group => new { druggendercount = group.Key, Count = group.Count() })
@@ -362,12 +535,21 @@ public class IndexModel : PageModel
             };
         }
     }
-    public async Task<IActionResult> OnGetDrugRaceDistributionDataAsync()
+    public async Task<IActionResult> OnGetDrugRaceDistributionDataAsync(int? selectedYear)
     {
 
         try
         {
-            var drugraceCounts = _context.Crimes
+            IQueryable<Crime> crimesIQ = from c in _context.Crimes select c;
+
+                Console.WriteLine("selectedYear " + selectedYear);
+            
+            if (selectedYear.HasValue)
+                {
+
+                crimesIQ = crimesIQ.Where(j => j.Date.Value.Year == selectedYear);
+                }
+            var drugraceCounts = crimesIQ
                 .Where(j => j.DrugCourt == true)
                 .GroupBy(j => j.Juvenile.Race.Name)
                 .Select(group => new { drugracecount = group.Key, Count = group.Count() })
